@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Abubaker — Rishta Profile</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400;1,600&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #07070e;
+  --c1: #b06fff;
+  --c2: #ff5fa0;
+  --c3: #00d4ff;
+  --c4: #ffb547;
+  --c5: #00e5a0;
+  --text: #f0eeff;
+  --t2: rgba(240,238,255,.6);
+  --t3: rgba(240,238,255,.28);
+  --border: rgba(255,255,255,.07);
+  --glass: rgba(255,255,255,.028);
+  --glass2: rgba(255,255,255,.05);
+}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  background:var(--bg); color:var(--text);
+  font-family:'Outfit',sans-serif; font-size:17px; line-height:1.65;
+  min-height:100vh; overflow-x:hidden; cursor:none;
+}
+
+/* ── CURSOR ── */
+#dot{position:fixed;width:8px;height:8px;border-radius:50%;background:var(--c1);pointer-events:none;z-index:9999;transform:translate(-50%,-50%);transition:transform .12s,background .2s,width .2s,height .2s;mix-blend-mode:screen}
+#ring{position:fixed;width:38px;height:38px;border-radius:50%;border:1px solid rgba(255,95,160,.55);pointer-events:none;z-index:9998;transform:translate(-50%,-50%);transition:width .25s,height .25s,border-color .25s;mix-blend-mode:screen}
+.hovering #dot{width:14px;height:14px;background:var(--c2);transform:translate(-50%,-50%) scale(1)}
+.hovering #ring{width:52px;height:52px;border-color:rgba(176,111,255,.7)}
+
+/* ── BG ── */
+.noise{position:fixed;inset:0;z-index:0;pointer-events:none;opacity:.045;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+.aurora{position:fixed;inset:0;z-index:0;pointer-events:none;
+  background:
+    radial-gradient(ellipse 70% 55% at 8% 12%, rgba(176,111,255,.14) 0%,transparent 65%),
+    radial-gradient(ellipse 55% 65% at 92% 85%, rgba(255,95,160,.11) 0%,transparent 65%),
+    radial-gradient(ellipse 45% 45% at 55% 45%, rgba(0,212,255,.08) 0%,transparent 65%),
+    radial-gradient(ellipse 35% 35% at 25% 75%, rgba(255,181,71,.06) 0%,transparent 65%);
+  animation:aura 25s ease-in-out infinite alternate}
+@keyframes aura{0%{filter:hue-rotate(0deg) brightness(1)}100%{filter:hue-rotate(40deg) brightness(1.15)}}
+.grid{position:fixed;inset:0;z-index:0;pointer-events:none;
+  background-image:linear-gradient(rgba(255,255,255,.018) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.018) 1px,transparent 1px);
+  background-size:80px 80px;
+  mask-image:radial-gradient(ellipse 75% 75% at 50% 50%,black 15%,transparent 100%)}
+canvas{position:fixed;inset:0;z-index:0;pointer-events:none}
+
+/* ── LAYOUT ── */
+.wrap{position:relative;z-index:2;max-width:1000px;margin:0 auto;padding:72px 30px 120px}
+
+/* ── HERO ── */
+.hero{margin-bottom:80px;animation:fadeUp .9s ease both}
+.eyebrow{
+  display:inline-flex;align-items:center;gap:14px;
+  font-size:12px;font-weight:500;letter-spacing:.25em;text-transform:uppercase;
+  color:var(--t3);margin-bottom:32px
+}
+.eyebrow::before,.eyebrow::after{content:'';display:inline-block;height:1px;width:24px;background:currentColor}
+
+.htitle{
+  font-family:'Cormorant Garamond',serif;
+  font-size:clamp(70px,12vw,128px);
+  line-height:.95;font-weight:300;letter-spacing:-.02em;
+  margin-bottom:0
+}
+.htitle .s1{display:block;color:rgba(240,238,255,.85)}
+.htitle .s2{
+  display:block;font-style:italic;font-weight:600;
+  background:linear-gradient(110deg,var(--c1) 0%,var(--c2) 50%,var(--c4) 100%);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+  animation:shimmer 4s ease-in-out infinite alternate
+}
+@keyframes shimmer{0%{filter:brightness(1)}100%{filter:brightness(1.2)}}
+.hsub{margin-top:32px;font-size:20px;color:var(--t2);max-width:540px;line-height:1.75;font-weight:300}
+.hchips{display:flex;flex-wrap:wrap;gap:10px;margin-top:36px}
+.hchip{
+  display:inline-flex;align-items:center;gap:9px;
+  padding:10px 22px;border-radius:100px;
+  font-size:14px;font-weight:500;
+  border:1px solid var(--border);background:var(--glass);
+  color:var(--t2);backdrop-filter:blur(12px);
+  transition:all .3s
+}
+.hchip:hover{background:var(--glass2);color:var(--text);transform:translateY(-3px);border-color:rgba(255,255,255,.14)}
+.hdot{width:7px;height:7px;border-radius:50%;flex-shrink:0}
+
+/* ── CARD ── */
+.card{
+  position:relative;overflow:hidden;
+  background:var(--glass);border:1px solid var(--border);
+  border-radius:32px;padding:52px;
+  backdrop-filter:blur(20px);margin-bottom:20px;
+  transition:border-color .35s,transform .35s,box-shadow .35s;
+  animation:fadeUp .75s ease both
+}
+.card:nth-child(2){animation-delay:.1s}
+.card:nth-child(3){animation-delay:.2s}
+.card:nth-child(4){animation-delay:.3s}
+.card::before{content:'';position:absolute;top:0;left:5%;right:5%;height:1px;background:linear-gradient(90deg,transparent,rgba(255,255,255,.12) 50%,transparent)}
+.card:hover{border-color:rgba(255,255,255,.12);transform:translateY(-2px);box-shadow:0 32px 80px rgba(0,0,0,.4)}
+
+/* glow strip on left */
+.card-glow{position:absolute;top:20%;left:0;width:2px;height:60%;border-radius:0 2px 2px 0;background:linear-gradient(180deg,transparent,var(--c1),transparent);opacity:.5}
+
+/* ── SECTION LABEL ── */
+.sl{display:flex;align-items:center;gap:16px;margin-bottom:38px}
+.sl-n{font-family:'Cormorant Garamond',serif;font-size:15px;color:var(--c1);opacity:.55;font-style:italic}
+.sl-t{font-size:11px;font-weight:600;letter-spacing:.24em;text-transform:uppercase;color:var(--t3);white-space:nowrap}
+.sl-l{flex:1;height:1px;background:var(--border)}
+
+/* ── AVATAR SECTION ── */
+.phead{display:flex;align-items:center;gap:40px;margin-bottom:52px}
+.avawrap{position:relative;flex-shrink:0;width:130px;height:130px}
+.ava-spin{position:absolute;inset:0;border-radius:28px;background:conic-gradient(from 0deg,var(--c1),var(--c2),var(--c3),var(--c4),var(--c1));animation:spin 6s linear infinite;z-index:0;opacity:.8}
+.ava-mask{position:absolute;inset:3px;border-radius:25px;background:var(--bg);z-index:1}
+.ava-letter{position:absolute;inset:3px;border-radius:25px;z-index:2;display:flex;align-items:center;justify-content:center;font-family:'Cormorant Garamond',serif;font-size:60px;font-weight:600;font-style:italic;background:linear-gradient(135deg,var(--c1),var(--c2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+@keyframes spin{to{transform:rotate(360deg)}}
+.pinfo{flex:1}
+.pname{font-family:'Cormorant Garamond',serif;font-size:54px;font-weight:600;line-height:1;margin-bottom:10px;letter-spacing:-.01em}
+.pmeta{font-size:16px;color:var(--t2);margin-bottom:20px;font-weight:400}
+.ptags{display:flex;flex-wrap:wrap;gap:8px}
+.pt{font-size:13px;font-weight:600;padding:7px 16px;border-radius:100px;border:1px solid;letter-spacing:.03em;transition:transform .2s}
+.pt:hover{transform:translateY(-2px)}
+.pt-a{background:rgba(176,111,255,.1);border-color:rgba(176,111,255,.35);color:var(--c1)}
+.pt-b{background:rgba(255,95,160,.09);border-color:rgba(255,95,160,.3);color:var(--c2)}
+.pt-c{background:rgba(0,212,255,.09);border-color:rgba(0,212,255,.3);color:var(--c3)}
+.pt-d{background:rgba(255,181,71,.09);border-color:rgba(255,181,71,.3);color:var(--c4)}
+.pt-e{background:rgba(0,229,160,.09);border-color:rgba(0,229,160,.3);color:var(--c5)}
+
+/* ── STATS ── */
+.sgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(205px,1fr));gap:14px}
+.stat{
+  background:rgba(255,255,255,.022);border:1px solid var(--border);
+  border-radius:22px;padding:26px 28px;
+  transition:all .3s;cursor:default;position:relative;overflow:hidden
+}
+.stat::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(176,111,255,.06),transparent);opacity:0;transition:opacity .3s;border-radius:22px}
+.stat:hover{border-color:rgba(176,111,255,.28);transform:translateY(-6px);box-shadow:0 20px 48px rgba(0,0,0,.4)}
+.stat:hover::before{opacity:1}
+.si{font-size:28px;margin-bottom:14px;display:block;filter:drop-shadow(0 0 8px rgba(176,111,255,.4))}
+.sl2{font-size:11px;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:var(--t3);margin-bottom:6px}
+.sv{font-family:'Cormorant Garamond',serif;font-size:30px;font-weight:600;color:var(--text);line-height:1.1;margin-bottom:5px}
+.sn{font-size:13px;color:var(--t3)}
+
+/* ── REQUIREMENTS ── */
+.rgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(275px,1fr));gap:14px}
+.req{
+  display:flex;align-items:flex-start;gap:18px;
+  background:rgba(255,255,255,.022);border:1px solid var(--border);
+  border-radius:22px;padding:24px 26px;transition:all .3s;cursor:default;
+  position:relative;overflow:hidden
+}
+.req::after{content:'';position:absolute;inset:0;opacity:0;transition:opacity .3s;border-radius:22px}
+.req:hover{transform:translateY(-5px);box-shadow:0 18px 44px rgba(0,0,0,.35)}
+.req.ra:hover{border-color:rgba(255,95,160,.35);background:rgba(255,95,160,.05)}
+.req.rb:hover{border-color:rgba(176,111,255,.35);background:rgba(176,111,255,.05)}
+.req.rc:hover{border-color:rgba(0,212,255,.35);background:rgba(0,212,255,.05)}
+.req.rd:hover{border-color:rgba(255,181,71,.35);background:rgba(255,181,71,.05)}
+.req.re:hover{border-color:rgba(0,229,160,.35);background:rgba(0,229,160,.05)}
+.req.rf:hover{border-color:rgba(176,111,255,.35);background:rgba(176,111,255,.05)}
+.rico{width:48px;height:48px;border-radius:14px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:22px}
+.ic-a{background:rgba(255,95,160,.12)}
+.ic-b{background:rgba(176,111,255,.12)}
+.ic-c{background:rgba(0,212,255,.12)}
+.ic-d{background:rgba(255,181,71,.12)}
+.ic-e{background:rgba(0,229,160,.12)}
+.ic-f{background:rgba(176,111,255,.12)}
+.rbody strong{display:block;font-size:17px;font-weight:700;color:var(--text);margin-bottom:5px;letter-spacing:-.01em}
+.rbody span{font-size:14px;color:var(--t2);line-height:1.55;display:block}
+.badge{
+  display:inline-flex;align-items:center;gap:5px;
+  margin-top:8px;padding:4px 12px;border-radius:100px;
+  font-size:11px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;
+  background:rgba(255,181,71,.14);border:1px solid rgba(255,181,71,.3);color:var(--c4)
+}
+
+/* ── METERS ── */
+.meters{display:flex;flex-direction:column;gap:24px;margin-top:32px}
+.mi{}
+.mtop{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
+.mname{font-size:17px;font-weight:600;color:var(--text)}
+.mtag{font-size:12px;font-weight:600;padding:4px 14px;border-radius:100px;letter-spacing:.06em}
+.must{background:rgba(255,95,160,.12);color:var(--c2);border:1px solid rgba(255,95,160,.25)}
+.high{background:rgba(176,111,255,.12);color:var(--c1);border:1px solid rgba(176,111,255,.25)}
+.med{background:rgba(0,212,255,.1);color:var(--c3);border:1px solid rgba(0,212,255,.22)}
+.low{background:rgba(255,255,255,.04);color:var(--t3);border:1px solid var(--border)}
+.mtrack{height:8px;background:rgba(255,255,255,.055);border-radius:100px;overflow:hidden;position:relative}
+.mtrack::after{content:'';position:absolute;inset:0;background:repeating-linear-gradient(90deg,transparent,transparent 6px,rgba(7,7,14,.4) 6px,rgba(7,7,14,.4) 7px)}
+.mfill{height:100%;border-radius:100px;transform-origin:left;animation:grow 1.8s cubic-bezier(.16,1,.3,1) both}
+@keyframes grow{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+
+/* ── ABOUT ── */
+.atext{font-family:'Cormorant Garamond',serif;font-size:24px;line-height:1.8;color:rgba(240,238,255,.75);font-weight:300;max-width:780px;font-style:italic}
+.atext .hl{color:var(--c1);font-style:normal;font-weight:600;-webkit-text-fill-color:var(--c1)}
+.atext .hl2{color:var(--c4);font-style:normal;font-weight:600;-webkit-text-fill-color:var(--c4)}
+.atext .hl3{color:var(--c2);font-style:normal;font-weight:600;-webkit-text-fill-color:var(--c2)}
+
+/* ── FAB ── */
+.fab{
+  position:fixed;bottom:34px;right:34px;z-index:100;
+  width:60px;height:60px;border-radius:18px;
+  background:linear-gradient(135deg,var(--c1),var(--c2));
+  border:none;cursor:none;font-size:24px;
+  display:flex;align-items:center;justify-content:center;
+  box-shadow:0 12px 40px rgba(176,111,255,.45);
+  transition:all .3s
+}
+.fab:hover{transform:scale(1.14) rotate(-8deg);box-shadow:0 18px 56px rgba(176,111,255,.65)}
+.toast{
+  position:fixed;bottom:110px;right:34px;z-index:100;
+  background:rgba(10,10,22,.96);border:1px solid rgba(176,111,255,.3);
+  backdrop-filter:blur(20px);border-radius:16px;
+  padding:14px 26px;font-size:15px;font-weight:500;color:var(--c1);
+  opacity:0;transform:translateY(14px);transition:all .35s;pointer-events:none
+}
+.toast.show{opacity:1;transform:translateY(0)}
+
+/* ── DECORATIVE ELEMENTS ── */
+.hero-deco{
+  position:absolute;top:-20px;right:-40px;
+  width:320px;height:320px;border-radius:50%;
+  background:radial-gradient(circle,rgba(176,111,255,.07) 0%,transparent 70%);
+  pointer-events:none;z-index:-1;
+  animation:pulse 6s ease-in-out infinite
+}
+@keyframes pulse{0%,100%{transform:scale(1);opacity:1}50%{transform:scale(1.08);opacity:.7}}
+
+/* ── ANIM ── */
+@keyframes fadeUp{from{opacity:0;transform:translateY(40px)}to{opacity:1;transform:translateY(0)}}
+
+/* ── RESPONSIVE ── */
+@media(max-width:640px){
+  .wrap{padding:44px 18px 100px}
+  .card{padding:32px 22px;border-radius:24px}
+  .phead{flex-direction:column;align-items:flex-start;gap:28px}
+  .sgrid{grid-template-columns:1fr 1fr;gap:12px}
+  .rgrid{grid-template-columns:1fr}
+  .htitle{font-size:clamp(56px,14vw,90px)}
+  .pname{font-size:42px}
+  .atext{font-size:20px}
+  .fab{bottom:22px;right:22px}
+}
+::-webkit-scrollbar{width:5px}
+::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{background:rgba(176,111,255,.3);border-radius:100px}
+</style>
+</head>
+<body>
+
+<div id="dot"></div>
+<div id="ring"></div>
+<div class="noise"></div>
+<div class="aurora"></div>
+<div class="grid"></div>
+<canvas id="cv"></canvas>
+
+<div class="wrap">
+
+  <!-- HERO -->
+  <section class="hero" style="position:relative">
+    <div class="hero-deco"></div>
+    <div class="eyebrow">Rishta Profile &nbsp;·&nbsp; Islamabad &nbsp;·&nbsp; 2025</div>
+    <h1 class="htitle">
+      <span class="s1">Looking for</span>
+      <span class="s2">The One.</span>
+    </h1>
+    <p class="hsub">A clean, honest, no-nonsense rishta profile — because the right person deserves more than a blurry WhatsApp forward.</p>
+    <div class="hchips">
+      <div class="hchip"><span class="hdot" style="background:var(--c1)"></span>Islamabad Based</div>
+      <div class="hchip"><span class="hdot" style="background:var(--c5)"></span>Serious Rishta Only</div>
+      <div class="hchip"><span class="hdot" style="background:var(--c2)"></span>Family Involved</div>
+    </div>
+  </section>
+
+  <!-- CARD 01 -->
+  <div class="card">
+    <div class="card-glow"></div>
+    <div class="sl">
+      <span class="sl-n">01</span>
+      <span class="sl-t">Profile Overview</span>
+      <div class="sl-l"></div>
+      <span class="sl-t" style="font-size:10px;opacity:.5">ID · ABK-25</span>
+    </div>
+
+    <div class="phead">
+      <div class="avawrap">
+        <div class="ava-spin"></div>
+        <div class="ava-mask"></div>
+        <div class="ava-letter">A</div>
+      </div>
+      <div class="pinfo">
+        <div class="pname">Abubaker</div>
+        <div class="pmeta">22 years old &nbsp;·&nbsp; Male &nbsp;·&nbsp; Punjabi (Islamabadi)</div>
+        <div class="ptags">
+          <span class="pt pt-a">BS Computer Science</span>
+          <span class="pt pt-d">G-11 Corner House</span>
+          <span class="pt pt-c">Islamabad</span>
+          <span class="pt pt-e">5'9" Tall</span>
+          <span class="pt pt-b">Punjabi</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="sl"><span class="sl-t">Personal Details</span><div class="sl-l"></div></div>
+
+    <div class="sgrid">
+      <div class="stat"><span class="si">🎂</span><div class="sl2">Age</div><div class="sv">22</div><div class="sn">Young, settled mindset</div></div>
+      <div class="stat"><span class="si">📐</span><div class="sl2">Height</div><div class="sv">5'9"</div><div class="sn">Tall, mashallah</div></div>
+      <div class="stat"><span class="si">🎓</span><div class="sl2">Education</div><div class="sv">BS CS</div><div class="sn">Computer Science grad</div></div>
+      <div class="stat"><span class="si">💼</span><div class="sl2">Employment</div><div class="sv">Job Hunt</div><div class="sn">Honest about it 😄</div></div>
+      <div class="stat"><span class="si">🏡</span><div class="sl2">Property</div><div class="sv">G-11</div><div class="sn">Own corner house, Isb</div></div>
+      <div class="stat"><span class="si">🕌</span><div class="sl2">Sect</div><div class="sv">Open</div><div class="sn">Doesn't matter to him</div></div>
+      <div class="stat"><span class="si">🌍</span><div class="sl2">Ethnicity</div><div class="sv">Punjabi</div><div class="sn">Islamabad raised 😎</div></div>
+      <div class="stat"><span class="si">📍</span><div class="sl2">City</div><div class="sv">Islamabad</div><div class="sn">Capital city gentleman</div></div>
+    </div>
+  </div>
+
+  <!-- CARD 02 -->
+  <div class="card">
+    <div class="card-glow" style="background:linear-gradient(180deg,transparent,var(--c2),transparent)"></div>
+    <div class="sl">
+      <span class="sl-n">02</span>
+      <span class="sl-t">What He's Looking For</span>
+      <div class="sl-l"></div>
+    </div>
+    <p style="font-size:19px;color:var(--t2);margin-bottom:36px;font-weight:300;line-height:1.7">Honest, clear, no drama — here's exactly what matters, ranked by priority.</p>
+    <div class="rgrid">
+      <div class="req ra"><div class="rico ic-a">🏔️</div><div class="rbody"><strong>Pathan / Pathani</strong><span>Must be of Pashtun origin — the one non-negotiable requirement</span></div></div>
+      <div class="req rb"><div class="rico ic-b">🎂</div><div class="rbody"><strong>Age: 18 – 23</strong><span>Looking for someone close in age and at a similar life stage</span></div></div>
+      <div class="req rc"><div class="rico ic-c">🎓</div><div class="rbody"><strong>BS Degree (Ongoing or Complete)</strong><span>Currently doing BS or already completed — education matters a lot</span><span class="badge">⭐ Big Plus</span></div></div>
+      <div class="req rd"><div class="rico ic-d">📐</div><div class="rbody"><strong>Height: 5'6" or Above</strong><span>Tall couple goals 🫶</span></div></div>
+      <div class="req re"><div class="rico ic-e">🕌</div><div class="rbody"><strong>Any Sect</strong><span>Sect is no barrier — character and values matter most</span></div></div>
+      <div class="req rf"><div class="rico ic-f">⚖️</div><div class="rbody"><strong>Weight: Under 58 kg</strong><span>Active and health-conscious lifestyle preferred</span></div></div>
+    </div>
+  </div>
+
+  <!-- CARD 03 -->
+  <div class="card">
+    <div class="card-glow" style="background:linear-gradient(180deg,transparent,var(--c3),transparent)"></div>
+    <div class="sl">
+      <span class="sl-n">03</span>
+      <span class="sl-t">Priority Index</span>
+      <div class="sl-l"></div>
+    </div>
+    <div class="meters">
+      <div class="mi"><div class="mtop"><span class="mname">🏔️ &nbsp;Pashtun Heritage</span><span class="mtag must">Must-Have</span></div><div class="mtrack"><div class="mfill" style="width:100%;background:linear-gradient(90deg,#ff5fa0,#b06fff);animation-delay:.1s"></div></div></div>
+      <div class="mi"><div class="mtop"><span class="mname">📚 &nbsp;Education Level</span><span class="mtag high">High Priority</span></div><div class="mtrack"><div class="mfill" style="width:83%;background:linear-gradient(90deg,#b06fff,#00d4ff);animation-delay:.25s"></div></div></div>
+      <div class="mi"><div class="mtop"><span class="mname">💪 &nbsp;Health & Fitness</span><span class="mtag high">High Priority</span></div><div class="mtrack"><div class="mfill" style="width:78%;background:linear-gradient(90deg,#00e5a0,#00d4ff);animation-delay:.4s"></div></div></div>
+      <div class="mi"><div class="mtop"><span class="mname">📐 &nbsp;Height</span><span class="mtag med">Medium</span></div><div class="mtrack"><div class="mfill" style="width:68%;background:linear-gradient(90deg,#ffb547,#ff5fa0);animation-delay:.55s"></div></div></div>
+      <div class="mi"><div class="mtop"><span class="mname">🕌 &nbsp;Sect Preference</span><span class="mtag low">Flexible</span></div><div class="mtrack"><div class="mfill" style="width:20%;background:linear-gradient(90deg,rgba(255,255,255,.2),rgba(255,255,255,.07));animation-delay:.7s"></div></div></div>
+    </div>
+  </div>
+
+  <!-- CARD 04 -->
+  <div class="card">
+    <div class="card-glow" style="background:linear-gradient(180deg,transparent,var(--c4),transparent)"></div>
+    <div class="sl">
+      <span class="sl-n">04</span>
+      <span class="sl-t">In His Own Words</span>
+      <div class="sl-l"></div>
+    </div>
+    <p class="atext">
+      Assalam o Alaikum! I'm <span class="hl">Abubaker</span> — a 22-year-old CS graduate from Islamabad. Full transparency: I'm currently <span class="hl3">job hunting</span>, but I'd rather be honest upfront than pretend otherwise. What I do have is a <span class="hl2">corner house in G-11</span>, so at least the roof situation is sorted.<br><br>
+      I'm a <span class="hl">Punjabi</span> guy who grew up in <span class="hl2">Islamabad</span>, and I have deep respect for Pashtun culture — the loyalty, the family values, the strength. That's exactly why I'm looking for someone <span class="hl3">Pathani</span>.<br><br>
+      If you're educated, health-conscious, and a good person — let's do this the proper way, with family involved. No drama. No ghosting. Just a real rishta. 🤝
+    </p>
+  </div>
+
+</div>
+
+<button class="fab" id="fab">🔗</button>
+<div class="toast" id="toast">🔗 Profile link copied!</div>
+
+<script>
+// Cursor
+const dot=document.getElementById('dot'),ring=document.getElementById('ring');
+let mx=0,my=0,rx=0,ry=0;
+document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;dot.style.left=mx+'px';dot.style.top=my+'px'});
+(function tick(){rx+=(mx-rx)*.12;ry+=(my-ry)*.12;ring.style.left=rx+'px';ring.style.top=ry+'px';requestAnimationFrame(tick)})();
+document.querySelectorAll('button,.hchip,.stat,.req,.pt').forEach(el=>{
+  el.addEventListener('mouseenter',()=>document.body.classList.add('hovering'));
+  el.addEventListener('mouseleave',()=>document.body.classList.remove('hovering'));
+});
+
+// Stars with occasional shooting stars
+const cv=document.getElementById('cv'),cx=cv.getContext('2d');
+let st=[],sh=[];
+function rz(){cv.width=innerWidth;cv.height=innerHeight;st=Array.from({length:220},()=>({x:Math.random()*cv.width,y:Math.random()*cv.height,r:Math.random()*1.4+.2,o:Math.random()*.55+.08,d:Math.random()*.004+.001}))}
+function spawnShoot(){if(Math.random()<.003){sh.push({x:Math.random()*cv.width*.7,y:Math.random()*cv.height*.4,vx:6+Math.random()*4,vy:3+Math.random()*3,life:1,len:80+Math.random()*60})}}
+function dr(){
+  cx.clearRect(0,0,cv.width,cv.height);
+  st.forEach(s=>{s.o+=s.d;if(s.o>.7||s.o<.07)s.d=-s.d;cx.beginPath();cx.arc(s.x,s.y,s.r,0,Math.PI*2);cx.fillStyle=`rgba(215,205,255,${s.o})`;cx.fill()});
+  spawnShoot();
+  sh=sh.filter(s=>{
+    s.x+=s.vx;s.y+=s.vy;s.life-=.022;
+    if(s.life<=0)return false;
+    const g=cx.createLinearGradient(s.x-s.vx*8,s.y-s.vy*8,s.x,s.y);
+    g.addColorStop(0,'transparent');g.addColorStop(1,`rgba(200,170,255,${s.life*.6})`);
+    cx.beginPath();cx.moveTo(s.x-s.vx*8,s.y-s.vy*8);cx.lineTo(s.x,s.y);
+    cx.strokeStyle=g;cx.lineWidth=1.5;cx.stroke();
+    return true;
+  });
+  requestAnimationFrame(dr);
+}
+rz();addEventListener('resize',rz);dr();
+
+// Meter animation
+const io=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting)e.target.querySelectorAll('.mfill').forEach((f,i)=>{f.style.animation='none';void f.offsetWidth;f.style.animation=`grow 1.8s ${i*.15+.1}s cubic-bezier(.16,1,.3,1) both`})})},{threshold:.3});
+document.querySelectorAll('.card').forEach(c=>io.observe(c));
+
+// Share
+document.getElementById('fab').onclick=()=>{
+  try{navigator.clipboard.writeText(location.href)}catch(e){}
+  const t=document.getElementById('toast');t.classList.add('show');setTimeout(()=>t.classList.remove('show'),3200)
+};
+</script>
+</body>
+</html>
